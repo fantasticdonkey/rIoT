@@ -5,6 +5,7 @@ Directory structure
 
 - tracker - contains code that runs on trackers (MicroPython on ESP32).
 - ttn - contains code specific to The Things Network.
+- aws-lambda - AWS Lambda functions.
 
 Further information
 =============
