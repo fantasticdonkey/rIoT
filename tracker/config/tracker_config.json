@@ -1,0 +1,30 @@
+{
+    "GENERAL": {
+        "TRACKER_FREQ_MS": 300000,
+        "DEBUG_CONSOLE": "True"
+    },
+    "LORA": {
+        "LORA_CS": 18,
+        "LORA_SCK": 5,
+        "LORA_MOSI": 27,
+        "LORA_MISO": 19,
+        "LORA_IRQ": 26,
+        "LORA_RST": 14,
+        "LORA_DATARATE": "SF9BW125",
+    },
+    "LORAWAN": {
+        "LORAWAN_DEVADDR": ["0x00", "0x00", "0x00", "0x00"],
+        "LORAWAN_NWKEY": ["0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00"],
+        "LORAWAN_APPKEY": ["0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00"],
+        "LORAWAN_FPORT": 1,
+        "LORAWAN_REGION": "EU"
+    },
+    "GPS": {
+        "GPS_UART_RX": 12,
+        "GPS_UART_TX": 23,
+        "GPS_UART_BAUD": 9600,
+        "GPS_LOAD_TIME_MS": 500,
+        "GPS_TIMEOUT_MS": 10000,
+        "GPS_TIMEOUT_CHECK_MS": 2000
+    }
+}
