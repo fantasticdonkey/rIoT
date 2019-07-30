@@ -129,7 +129,7 @@ class GpsReceiver():
         long_int, long_frac = str(gps_data["longitude"][0]).split(".")
         if gps_data["latitude"][1] == "S":
             lat_int = -lat_int
-        if gps_data["longitude"] == "W":
+        if gps_data["longitude"][1] == "W":
             long_int = -long_int
         _data_bytes += (int(lat_int) + _lat_int_offset).to_bytes(1, "big")
         _data_bytes += (int(lat_frac[:_lat_long_offset])).to_bytes(3, "big")
