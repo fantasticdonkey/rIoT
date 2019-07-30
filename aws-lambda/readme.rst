@@ -1,7 +1,8 @@
 Elasticsearch Indexes
 ===============
 
-**riot-trackers**
+riot-trackers
+---------------
 
 Payloads received from TTN (LoRaWAN) are stored in this index.
 
