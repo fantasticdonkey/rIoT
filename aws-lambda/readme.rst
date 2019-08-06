@@ -2,7 +2,9 @@ Elasticsearch Indexes
 ===============
 
 **riot-trackers**
+
 Payloads received from TTN (LoRaWAN) are stored in this index.
+
 - **payload_fields.location** is explicitly defined as a **geo_point** type to ensure it can be used in mapping.
 
 .. code-block:: JSON
