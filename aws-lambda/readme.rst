@@ -1,8 +1,12 @@
 Elasticsearch Indexes
 ===============
 
+<<<<<<< Upstream, based on branch 'develop' of https://github.com/fantasticdonkey/rIoT
 riot-trackers
 ---------------
+=======
+**riot-trackers**
+>>>>>>> d8056d9 Added IoT Events lambda functions.
 
 Payloads received from TTN (LoRaWAN) are stored in this index.
 
