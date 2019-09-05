@@ -1,0 +1,39 @@
+{
+	"dev_id": "riot-brick",
+	"logging": {
+		"file_logging": true,
+		"file_name": "data/brickdata_",
+		"file_extension": "csv"
+	},
+	"database": {
+		"sqlite_database": "db/riot.db",
+		"sqlite_table": "sensor_data"
+	},
+	"sensors": {
+		"frequency_s": 60,
+		"gps_receiver": {
+			"fix_retry_s": 5
+		},
+		"weather_sensor": {
+			"bme280_i2c_address": 118
+		}
+	},
+	"uploader": {
+		"frequency_s": 60,
+		"cert_dir": "certs/",
+		"wlan_interface": "wlan0",
+		"trackers": {
+			"0": {"name": "riot-brick"},
+			"1": {"name": "riot-tracker-1"}
+		}
+	},
+	"rfproxy": {
+		"nrf24_ce_pin": 25,
+		"nrf24_irq_pin": 5,
+		"nrf24_read_frequency_s": 0.001,
+		"nrf24_pipes": "[[0xf0, 0xf0, 0xf0, 0xf0, 0xe1], [0xf0, 0xf0, 0xf0, 0xf0, 0xd2]]",
+		"nrf24_channel": 100,
+		"nrf24_payload_size": 16,
+		"shared_id": 23
+	}
+}
