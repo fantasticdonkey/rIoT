@@ -3,7 +3,6 @@ Takes readings from connected sensors, and stores payload in a sqlite3 database.
 Also stores individual values locally in a CSV file for safekeeping.
 """
 
-# TODO: Photoresistor / UV sensors
 # TODO: Persist total distance / time over restarts
 
 import sys
@@ -11,12 +10,14 @@ import time
 import datetime
 import json
 import subprocess
+import smbus
 import platform
 import sqlite3
 from haversine import haversine
 import gpsd
 import psutil
 import Adafruit_BME280
+import bh1750
 
 BRICK_CONFIG_FILE = "config/brick_config.json"
 with open(BRICK_CONFIG_FILE) as config_file:
@@ -48,6 +49,18 @@ class WeatherSensor():
         else:
             _readings = (degrees, pascals, humidity)
         return _readings
+    
+class LuxSensor():
+    """ BH1750 light sensor """
+    
+    def __init__(self):
+        """ Initialise the BM1750 sensor """
+        bus = smbus.SMBus(1)
+        self.lux_sensor = bh1750.BH1750(bus)
+
+    def get_lux(self):
+        """ Get lux reading, using high resolution 2"""
+        return round(self.lux_sensor.measure_high_res2(), 1)
 
 class GPSReceiver():
     """ U-blox Neo-6 GPS receiver module connected via UART """
@@ -113,6 +126,7 @@ class SensorController():
         self.sensors_config = brick_config["sensors"]
         self.logging_config = brick_config["logging"]
         self.weather_sensor = WeatherSensor(self.sensors_config["weather_sensor"])
+        self.lux_sensor = LuxSensor()
         self.gps = GPSReceiver(self.sensors_config["gps_receiver"])
         # All of these running stats are reset at app start-up
         self.total_distance_km = 0
@@ -172,6 +186,7 @@ class SensorController():
         _collected_data["temperature"] = _weather_readings[0]
         _collected_data["pressure"] = _weather_readings[1]
         _collected_data["humidity"] = _weather_readings[2]
+        _collected_data["light"] = self.lux_sensor.get_lux()
         _collected_data["total_distance"] = self.total_distance_km
         _collected_data["total_climb"] = self.total_climb_m
         _collected_data["total_time"] = (datetime.datetime.now() - self.start_time).seconds

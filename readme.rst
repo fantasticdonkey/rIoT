@@ -11,8 +11,8 @@ Trackers
 Trackers are ESP32 development boards running MicroPython that are attached to:
 
 - U-blox Neo-6 GPS receiver (UART interface)
-- Semtech SX127X LoRa transceiver
-- Nordic Semiconductor nRF24L01 transceiver
+- Semtech SX127X LoRa transceiver (SPI)
+- Nordic Semiconductor nRF24L01+ transceiver (SPI)
 
 In short, trackers periodically take GPS readings and broadcasts these out via LoRa (LoRaWAN) and 2.4 GHz radio.  For the remainder of the time, they will remain in deep sleep.
 
@@ -21,7 +21,11 @@ Trackers need to be small, lightweight and last over a day (ideally multiple) on
 Brick
 ---------------
 
-Multiple trackers will send their GPS data to a single brick. 
+Multiple trackers will send their GPS data to a single brick.  The brick will also take its own GPS readings, but also have other sensors attached as well.
+
+The brick also runs a sqlite3 database to buffer payloads (both for itself and the trackers) and uploads them to AWS IOT via REST API when Internect connetion is detected.
+
+A RF receiver application runs on the brick to receive payloads from the trackers using a nRF24L01+ receiver.
 
 The Things Network (TTN)
 ---------------
@@ -53,6 +57,7 @@ There is a number of directories storing files required by different aspects of 
 - **/ttn** - Contains code specific to The Things Network, such as the payload format decoder.
 - **/aws-lambda** - Contains AWS Lambda functions in Python 3.X.
 - **/brick** - Contains Python code running on the Raspberry Pi.
+- **/docs** - Random glossy literature that would make a salesperson proud.
 
 Further information
 =============
