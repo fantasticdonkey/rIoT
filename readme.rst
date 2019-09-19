@@ -14,7 +14,7 @@ Trackers are ESP32 development boards running MicroPython that are attached to:
 - Semtech SX127X LoRa transceiver (SPI)
 - Nordic Semiconductor nRF24L01+ transceiver (SPI)
 
-In short, trackers periodically take GPS readings and broadcasts these out via LoRa (LoRaWAN) and 2.4 GHz radio.  For the remainder of the time, they will remain in deep sleep.
+In short, trackers periodically take GPS readings and broadcasts these out via LoRa (LoRaWAN) and 2.4 GHz radio (nRF).  For the remainder of the time, they will remain in deep sleep.
 
 Trackers need to be small, lightweight and last over a day (ideally multiple) on a single battery charge. They also need to have zero dependencies on the remainder of the project.
 
@@ -25,7 +25,9 @@ Multiple trackers will send their GPS data to a single brick.  The brick will al
 
 The brick also runs a sqlite3 database to buffer payloads (both for itself and the trackers) and uploads them to AWS IOT via REST API when Internect connetion is detected.
 
-A RF receiver application runs on the brick to receive payloads from the trackers using a nRF24L01+ receiver.
+A nRF receiver application runs on the brick to receive payloads from the trackers using a nRF24L01+ receiver.
+
+Brick is a Raspberry Pi Zero running Raspbian OS.  It has been tested to run 48+ hours with a beefy 20,000mAh 2A battery pack.
 
 The Things Network (TTN)
 ---------------
@@ -40,13 +42,17 @@ AWS
 AWS services - specifically AWS IoT - are being used to provide the following functionalities:
 
 - **AWS IoT Core** is used to ingest data from the trackers. Data is further forwarded onto **AWS IoT Events** and **AWS Elasticsearch Service**.
-- **AWS Elasticsearch Service** is used to store all data being received from the field.
+- **AWS Elasticsearch Service** is used to store all data being received from the field. Kibana provides the data visualisation.
 - **AWS IoT Events** operates a detector model that monitors for non-responsive trackers. **AWS Simple Email Service** is used to dispatch notification emails relating to tracker state changes.
 
 There are **AWS Lambda** functions deployed to perform integration between the services, such as for:
 
 - Making shadow document updates for a device in **AWS IoT Core**.
 - Sending notification emails to recipients using **AWS Simple Email Service**.
+
+- **AWS DynamoDB** is used to store meta-data, for example interesting locations.
+
+A static website is built using **AWS S3** (for web site file storage) and **AWS Cognito** (user authentication and authorisation).  
 
 Project structure
 ===============
@@ -58,6 +64,7 @@ There is a number of directories storing files required by different aspects of 
 - **/aws-lambda** - Contains AWS Lambda functions in Python 3.X.
 - **/brick** - Contains Python code running on the Raspberry Pi.
 - **/docs** - Random glossy literature that would make a salesperson proud.
+- **/web** - HTML, JavaScript and other static files for the web site.
 
 Further information
 =============

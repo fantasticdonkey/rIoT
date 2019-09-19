@@ -3,7 +3,9 @@
 	"logging": {
 		"file_logging": true,
 		"file_name": "data/brickdata_",
-		"file_extension": "csv"
+		"file_extension": "csv",
+		"gpx": true,
+		"gpx_file_name": "data/gpx_"
 	},
 	"database": {
 		"sqlite_database": "db/riot.db",

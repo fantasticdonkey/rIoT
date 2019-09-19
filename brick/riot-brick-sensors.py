@@ -10,14 +10,16 @@ import time
 import datetime
 import json
 import subprocess
-import smbus
 import platform
 import sqlite3
 from haversine import haversine
+import smbus
 import gpsd
 import psutil
 import Adafruit_BME280
 import bh1750
+import gpxpy
+import gpxpy.gpx
 
 BRICK_CONFIG_FILE = "config/brick_config.json"
 with open(BRICK_CONFIG_FILE) as config_file:
@@ -49,10 +51,10 @@ class WeatherSensor():
         else:
             _readings = (degrees, pascals, humidity)
         return _readings
-    
+
 class LuxSensor():
     """ BH1750 light sensor """
-    
+
     def __init__(self):
         """ Initialise the BM1750 sensor """
         bus = smbus.SMBus(1)
@@ -140,6 +142,16 @@ class SensorController():
         self.sensor_database = brick_config["database"]["sqlite_database"]
         self.sensor_data_table = brick_config["database"]["sqlite_table"]
         printf("Sensor controller initialised")
+        if self.logging_config["gpx"]:
+            self.gpx = gpxpy.gpx.GPX()
+            self.gpx_track = gpxpy.gpx.GPXTrack()
+            self.gpx.tracks.append(self.gpx_track)
+            self.gpx_segment = gpxpy.gpx.GPXTrackSegment()
+            self.gpx_track.segments.append(self.gpx_segment)
+            self.gpx_file_name =\
+                self.logging_config["gpx_file_name"] +\
+                datetime.datetime.now().strftime("%Y%m%d%H%M%S") +\
+                ".gpx"
 
     def run(self):
         """ Indefinite loop to run the controller app """
@@ -150,6 +162,17 @@ class SensorController():
             if not _no_gps_data:
                 self._log_to_file(_current_data)
                 self._log_to_database(_current_data)
+                if self.logging_config["gpx"]:
+                    self.gpx_segment.points.append(
+                        gpxpy.gpx.GPXTrackPoint(
+                            _current_data["position_lat"],
+                            _current_data["position_long"],
+                            elevation=_current_data["altitude"]
+                        )
+                    )
+                    _gpx_file = open(self.gpx_file_name, "w")
+                    _gpx_file.write(self.gpx.to_xml())
+                    _gpx_file.close()
             printf("Sensor controller run completed")
             _remaining_time = self.sensors_config["frequency_s"] - int(time.time()-_start_time)
             if _remaining_time > 0:
@@ -217,6 +240,7 @@ class SensorController():
                 str(log_data["temperature"]) + "," +
                 str(log_data["pressure"]) + "," +
                 str(log_data["humidity"]) + "," +
+                str(log_data["light"]) + "," +
                 str(log_data["total_distance"]) + "," +
                 str(log_data["total_climb"]) + "," +
                 str(log_data["total_time"]) + "," +
