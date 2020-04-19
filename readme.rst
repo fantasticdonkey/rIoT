@@ -1,4 +1,6 @@
-Go outdoors. Equipped with random homemade IoT gizmos. 'Cause we wanna. 
+Go outdoors. Equipped with random homemade IoT gizmos. 'Cause we wanna.
+
+The *official* repository for `Taking a Peak: Xtreme² Edition <https://www.rosietheredrobot.com/2019/09/taking-peak-xtreme-edition.html>`_
 
 Overview
 ===============
@@ -41,18 +43,18 @@ AWS
 
 AWS services - specifically AWS IoT - are being used to provide the following functionalities:
 
-- **AWS IoT Core** is used to ingest data from the trackers. Data is further forwarded onto **AWS IoT Events** and **AWS Elasticsearch Service**.
-- **AWS Elasticsearch Service** is used to store all data being received from the field. Kibana provides the data visualisation.
-- **AWS IoT Events** operates a detector model that monitors for non-responsive trackers. **AWS Simple Email Service** is used to dispatch notification emails relating to tracker state changes.
+- **AWS IoT Core** is used to ingest data from the trackers. Data is stored locally in a SQLite database, and further forwarded onto **AWS IoT Events** and **AWS Elasticsearch Service**. For more information, see post `Gold Filling <https://www.rosietheredrobot.com/2019/08/gold-filling.html>`_.
+- **AWS Elasticsearch Service** is used to store all data being received from the field. Kibana provides the data visualisation. For more information, see post `Hard Grapht <https://www.rosietheredrobot.com/2019/07/hard-grapht.html>`_.
+- **AWS IoT Events** operates a detector model that monitors for non-responsive trackers. **AWS Simple Email Service** is used to dispatch notification emails relating to tracker state changes. For more information, see post `Pear Force One <https://www.rosietheredrobot.com/2019/08/pear-force-one.html>`_.
 
 There are **AWS Lambda** functions deployed to perform integration between the services, such as for:
 
 - Making shadow document updates for a device in **AWS IoT Core**.
 - Sending notification emails to recipients using **AWS Simple Email Service**.
 
-- **AWS DynamoDB** is used to store meta-data, for example interesting locations.
+- **AWS DynamoDB** is used to store meta-data, for example interesting locations. For more information, see post `Castle Track-a-lot <https://www.rosietheredrobot.com/2019/08/castle-track-lot.html>`_.
 
-A static website is built using **AWS S3** (for web site file storage) and **AWS Cognito** (user authentication and authorisation).  
+A static website is built using **AWS S3** (for web site file storage) and **AWS Cognito** (user authentication and authorisation). `Unreal TV <https://www.rosietheredrobot.com/2020/04/unreal-tv.html>`_. 
 
 Project structure
 ===============
