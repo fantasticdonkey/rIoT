@@ -56,7 +56,7 @@ class LuxSensor():
     """ BH1750 light sensor """
 
     def __init__(self):
-        """ Initialise the BM1750 sensor """
+        """ Initialise the BH1750 sensor """
         bus = smbus.SMBus(1)
         self.lux_sensor = bh1750.BH1750(bus)
 
@@ -167,7 +167,8 @@ class SensorController():
                         gpxpy.gpx.GPXTrackPoint(
                             _current_data["position_lat"],
                             _current_data["position_long"],
-                            elevation=_current_data["altitude"]
+                            elevation=_current_data["altitude"],
+                            time=datetime.datetime.now()
                         )
                     )
                     _gpx_file = open(self.gpx_file_name, "w")
