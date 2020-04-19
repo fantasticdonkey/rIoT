@@ -2,6 +2,8 @@ Go outdoors. Equipped with random homemade IoT gizmos. 'Cause we wanna.
 
 The *official* repository for `Taking a Peak: Xtreme² Edition <https://www.rosietheredrobot.com/2019/09/taking-peak-xtreme-edition.html>`_
 
+.. image:: images/brecon_1.JPG
+
 Overview
 ===============
 
@@ -16,7 +18,7 @@ Trackers are ESP32 development boards running MicroPython that are attached to:
 - Semtech SX127X LoRa transceiver (SPI)
 - Nordic Semiconductor nRF24L01+ transceiver (SPI)
 
-In short, trackers periodically take GPS readings and broadcasts these out via LoRa (LoRaWAN) and 2.4 GHz radio (nRF).  For the remainder of the time, they will remain in deep sleep.
+In short, trackers periodically take GPS readings and broadcast these out via LoRa (LoRaWAN) and 2.4 GHz radio (nRF).  For the remainder of the time, they will remain in deep sleep.
 
 Trackers need to be small, lightweight and last over a day (ideally multiple) on a single battery charge. They also need to have zero dependencies on the remainder of the project.
 
@@ -25,7 +27,7 @@ Brick
 
 Multiple trackers will send their GPS data to a single brick.  The brick will also take its own GPS readings, but also have other sensors attached as well.
 
-The brick also runs a sqlite3 database to buffer payloads (both for itself and the trackers) and uploads them to AWS IOT via REST API when Internect connetion is detected.
+The brick also runs a sqlite3 database to buffer payloads (both for itself and the trackers) and uploads them to AWS IOT via REST API when internet connetion is detected.
 
 A nRF receiver application runs on the brick to receive payloads from the trackers using a nRF24L01+ receiver.
 
@@ -43,7 +45,7 @@ AWS
 
 AWS services - specifically AWS IoT - are being used to provide the following functionalities:
 
-- **AWS IoT Core** is used to ingest data from the trackers. Data is stored locally in a SQLite database, and further forwarded onto **AWS IoT Events** and **AWS Elasticsearch Service**. For more information, see post `Gold Filling <https://www.rosietheredrobot.com/2019/08/gold-filling.html>`_.
+- **AWS IoT Core** is used to ingest data from the trackers. Data is stored locally in a sqlite3 database, and further forwarded onto **AWS IoT Events** and **AWS Elasticsearch Service**. For more information, see post `Gold Filling <https://www.rosietheredrobot.com/2019/08/gold-filling.html>`_.
 - **AWS Elasticsearch Service** is used to store all data being received from the field. Kibana provides the data visualisation. For more information, see post `Hard Grapht <https://www.rosietheredrobot.com/2019/07/hard-grapht.html>`_.
 - **AWS IoT Events** operates a detector model that monitors for non-responsive trackers. **AWS Simple Email Service** is used to dispatch notification emails relating to tracker state changes. For more information, see post `Pear Force One <https://www.rosietheredrobot.com/2019/08/pear-force-one.html>`_.
 
@@ -54,7 +56,7 @@ There are **AWS Lambda** functions deployed to perform integration between the s
 
 - **AWS DynamoDB** is used to store meta-data, for example interesting locations. For more information, see post `Castle Track-a-lot <https://www.rosietheredrobot.com/2019/08/castle-track-lot.html>`_.
 
-A static website is built using **AWS S3** (for web site file storage) and **AWS Cognito** (user authentication and authorisation). `Unreal TV <https://www.rosietheredrobot.com/2020/04/unreal-tv.html>`_. 
+A static website is built using **AWS S3** (for web site static file storage) and **AWS Cognito** (user authentication and authorisation). `Unreal TV <https://www.rosietheredrobot.com/2020/04/unreal-tv.html>`_. 
 
 Project structure
 ===============
@@ -66,7 +68,7 @@ There is a number of directories storing files required by different aspects of 
 - **/aws-lambda** - Contains AWS Lambda functions in Python 3.X.
 - **/brick** - Contains Python code running on the Raspberry Pi.
 - **/docs** - Random glossy literature that would make a salesperson proud.
-- **/web** - HTML, JavaScript and other static files for the web site.
+- **/web** - HTML, JavaScript and other static files for the web site. Currently empty.
 
 Further information
 =============
@@ -78,3 +80,5 @@ The Semtech SX1276 LoRA transceiver datasheet can be found here:
 The LoRaWAN specification can be found here:
 
 - https://lora-alliance.org/resource-hub/lorawantm-specification-v11
+
+.. image:: images/brecon_2.JPG
